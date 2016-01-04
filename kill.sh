@@ -1,0 +1,1 @@
+ps -ax|grep Meeting|grep -v grep|tr -s ' '|cut -f2 -d ' '|xargs kill -9
