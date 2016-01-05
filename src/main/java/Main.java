@@ -1,42 +1,44 @@
-/**
- * Created by bob.zhu on 1/4/16.
- */
 import org.sikuli.script.*;
-import org.sikuli.basics.Debug;
-
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
-    static int times = 100;
-    static Screen s = new Screen();
+    static Screen screen = new Screen();
 
     public static void enterKey(String key, int count) {
         for (int i = 0; i < count; i++)
-            s.type(key);
+            screen.type(key);
     }
 
     public static void main(String[] args) throws FindFailed, IOException {
-        for (int i = 0; i < times; i++) {
+        List<Sequence> list = Sequence.readAll();
+        for (Sequence se:list) {
+            execute(se);
+        }
+    }
+
+    private static void execute(Sequence sequence) throws IOException {
+        for (int i = 0; i < sequence.getTimes(); i++) {
             try {
-                s.doubleClick("imgs/rcmeetingstart.png");
-                s.doubleClick("imgs/signin.png");
-                s.doubleClick("imgs/signin.png");
-                s.click("imgs/selectregion.png");
-                enterKey(Key.UP, 10);
+                screen.doubleClick("imgs/rcmeetingstart.png");
+                screen.doubleClick("imgs/signin.png");
+                screen.doubleClick("imgs/signin.png");
+                screen.click("imgs/selectregion.png");
+                enterKey(Key.UP, sequence.getCountry());
                 enterKey(Key.ENTER, 1);
-                s.click("imgs/phonenumber.png");
-                s.type("33185642659");
-                s.click("imgs/password.png");
-                s.type("Test!123");
+                screen.click("imgs/phonenumber.png");
+                screen.type(sequence.getUsername());
+                screen.click("imgs/password.png");
+                screen.type(sequence.getPassword());
                 enterKey(Key.ENTER,1);
                 Pattern p = new Pattern("imgs/logoutdropdown.png").targetOffset(62, 0);
-                s.doubleClick(p);
-                s.click(p);
+                screen.doubleClick(p);
+                screen.click(p);
                 enterKey(Key.DOWN, 3);
                 enterKey(Key.ENTER, 1);
             } catch (FindFailed e) {
                 e.printStackTrace();
-                takescreenshot("run_"+i+"_times_get_error.png");
+                takescreenshot("country_"+sequence.getCountry()+"run_"+i+"_times_get_error.png");
             } finally {
                 killmeeting();
             }
@@ -45,7 +47,7 @@ public class Main {
 
     private static void takescreenshot(String name) throws IOException {
         Runtime.getRuntime().exec(new String[]{"screencapture",
-                String.format("/Users/bob.zhu/project/SikuliTests/screens/{0}", name)});
+                String.format("/Users/bob.zhu/project/SikuliTests/screens/%s", name)});
     }
 
     private static void killmeeting() throws IOException {

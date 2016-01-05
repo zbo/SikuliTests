@@ -1,3 +1,12 @@
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
 public class Sequence {
 
     public Sequence(String username, String password, int country, int times) {
@@ -42,5 +51,26 @@ public class Sequence {
 
     public void setTimes(int times) {
         this.times = times;
+    }
+
+    public static List<Sequence> readAll() {
+        try {
+            Gson gson = new Gson();
+            InputStream inputStream = Sequence.class.getResourceAsStream("config.json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder out = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.append(line);
+            }
+            String json = out.toString();
+            List<Sequence> resultList = gson.fromJson(json,
+                    new TypeToken<List<Sequence>>() {
+                    }.getType());
+            return resultList;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
