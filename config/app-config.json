@@ -1,0 +1,5 @@
+{
+  "screens_folder":"./config/screens",
+  "imgs_folder":"./config/imgs",
+  "killer_path":"./config/kill.sh"
+}

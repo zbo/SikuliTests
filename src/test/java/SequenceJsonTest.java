@@ -1,6 +1,5 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.oracle.tools.packager.IOUtils;
 import org.junit.Test;
 
 import java.io.*;
@@ -22,7 +21,8 @@ public class SequenceJsonTest {
     @Test
     public void testJsonToList() throws IOException {
         Gson gson = new Gson();
-        InputStream inputStream = this.getClass().getResourceAsStream("config.json");
+        File file = new File("config/sequence-config.json");
+        InputStream inputStream = new FileInputStream(file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder out = new StringBuilder();
         String line;

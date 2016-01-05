@@ -1,10 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
 
 public class Sequence {
@@ -56,7 +53,8 @@ public class Sequence {
     public static List<Sequence> readAll() {
         try {
             Gson gson = new Gson();
-            InputStream inputStream = Sequence.class.getResourceAsStream("config.json");
+            File file = new File("config/sequence-config.json");
+            InputStream inputStream = new FileInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder out = new StringBuilder();
             String line;
