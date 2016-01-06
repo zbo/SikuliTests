@@ -1,0 +1,5 @@
+{
+  "screens_folder":"./SikuliTestsWin/config/screens",
+  "imgs_folder":"./SikuliTestsWin/config/imgs",
+  "killer_path":"./SikuliTestsWin/config/kill.sh"
+}
